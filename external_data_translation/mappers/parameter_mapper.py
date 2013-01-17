@@ -2,7 +2,7 @@
 
 """
 @package coi
-@file coverage-creator/parameter_mapper.py
+@file external_data_translation/mappers/parameter_mapper.py
 @author James Case
 @brief The core classes comprising the ParameterMapper
 """
@@ -16,7 +16,7 @@ class ParameterMapperError(Exception):
 
 class ParameterMapper(object):
     """
-    The PersistenceLayer class manages the disk-level storage (and retrieval) of the Coverage Model using HDF5 files.
+    The ParameterMapper constructs the mapping between an external form and the Coverage Model
     """
 
     def __init__(self, pmap_file, parameter_dictionary, **kwargs):
@@ -103,23 +103,13 @@ class ParameterMapper(object):
             pmap_reader.next()
             for row in pmap_reader:
                 self.pmap_dict[row[1]] = dict([(header[2], row[2]), (header[3], row[3]), (header[4], row[4]), (header[5], row[5]), (header[6], row[6])])
-#                self.pmap_dict[header[0]] = row[0]
-#                self.pmap_dict[header[1]] = row[1]
-#                self.pmap_dict[header[2]] = row[2]
-#                self.pmap_dict[header[3]] = row[3]
-#                self.pmap_dict[header[4]] = row[4]
-#                self.pmap_dict[header[5]] = row[5]
-#                self.pmap_dict[header[6]] = row[6]
 
     def _load_pdict(self):
+        """
+        Loads the ParameterDictionary into a local construct for mapping evaluation
+        """
         self.param_context_listing = []
-        # TODO: Loads the ParameterDictionary into a local construct for mapping evaluation
-        # TODO: Manually appending test parameter names at the moment
-        # Example: cov.list_parameters() creates a list or ParameterDictionary.keys() does the same
-        # TODO: Use this when ready: self.param_context_listing = self.parameter_dictionary.keys()
-        self.param_context_listing.append('temp')
-        self.param_context_listing.append('salinity')
-        self.param_context_listing.append('junk')
+        self.param_context_listing = self.parameter_dictionary.keys()
 
     def get_mapping(self):
         """
