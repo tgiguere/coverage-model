@@ -22,14 +22,15 @@
 #sal_ctxt = ParameterContext('salinity', param_type=QuantityType(value_encoding=np.dtype('float32')))
 #sal_ctxt.uom = 'ppm'
 #pdict.add_context(sal_ctxt)
-#cov = coverage_creator('external_data_translation.parsers.parser_csv', 'CSVParser', 'extern/coverage-model/external_data_translation/examples/test.csv')
-#cov.create_coverage('extern/coverage-model/external_data_translation/examples/ncell.pmap', pdict)
+#cov = coverage_creator('external_data_translation.parsers.parser_csv', 'CSVParser', 'external_data_translation/examples/test.csv')
+#new_cov = cov.create_coverage('external_data_translation/examples/ncell.pmap', pdict)
 
 import os
 import uuid
 
 from coverage_model.coverage import SimplexCoverage, CRS, GridDomain, GridShape
 from coverage_model.basic_types import AxisTypeEnum, MutabilityEnum
+from coverage_model.utils import create_guid
 from external_data_translation.mappers.parameter_mapper import ParameterMapper
 
 class coverage_creator():
@@ -53,7 +54,7 @@ class coverage_creator():
             tdom = GridDomain(GridShape('temporal', [0]), tcrs, MutabilityEnum.EXTENSIBLE) # 1d (timeline)
 
             self._coverage = SimplexCoverage('test_data',
-                                             self.create_guid(),
+                                             create_guid(),
                                              os.path.splitext(os.path.basename('test_data/test.csv'))[0],
                                              parameter_dictionary=param_dict,
                                              temporal_domain=tdom)
@@ -72,10 +73,11 @@ class coverage_creator():
                 self._coverage.set_parameter_values(mapping[var],
                                                     value=vals)
                 print self._coverage.get_parameter_values(mapping[var])
+            return self._coverage
 
-    def create_guid(self):
-        """
-        @retval Return global unique id string
-        """
-        # guids seem to be more readable if they are UPPERCASE
-        return str(uuid.uuid4()).upper()
+#    def create_guid(self):
+#        """
+#        @retval Return global unique id string
+#        """
+#        # guids seem to be more readable if they are UPPERCASE
+#        return str(uuid.uuid4()).upper()
