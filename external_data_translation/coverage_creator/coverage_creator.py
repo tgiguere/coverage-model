@@ -22,8 +22,8 @@
 #sal_ctxt = ParameterContext('salinity', param_type=QuantityType(value_encoding=np.dtype('float32')))
 #sal_ctxt.uom = 'ppm'
 #pdict.add_context(sal_ctxt)
-#cov = coverage_creator('external_data_translation.parsers.parser_csv', 'CSVParser', 'extern/coverage-model/external_data_translation/test_data/test.csv')
-#cov.create_coverage('extern/coverage-model/external_data_translation/test_data/ncell.pmap', pdict)
+#cov = coverage_creator('external_data_translation.parsers.parser_csv', 'CSVParser', 'extern/coverage-model/external_data_translation/examples/test.csv')
+#cov.create_coverage('extern/coverage-model/external_data_translation/examples/ncell.pmap', pdict)
 
 import os
 import uuid
