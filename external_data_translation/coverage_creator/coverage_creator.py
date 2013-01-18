@@ -23,10 +23,9 @@
 #sal_ctxt.uom = 'ppm'
 #pdict.add_context(sal_ctxt)
 #cov = coverage_creator('external_data_translation.parsers.parser_csv', 'CSVParser', 'external_data_translation/examples/test.csv')
-#new_cov = cov.create_coverage('external_data_translation/examples/ncell.pmap', pdict)
+#new_cov = cov.create_coverage('test_data', 'external_data_translation/examples/file_to_cov.pmap', pdict)
 
 import os
-import uuid
 
 from coverage_model.coverage import SimplexCoverage, CRS, GridDomain, GridShape
 from coverage_model.basic_types import AxisTypeEnum, MutabilityEnum
@@ -39,10 +38,12 @@ class coverage_creator():
         module = __import__(mod_name, fromlist=[class_name])
         classobj = getattr(module, class_name)
 
-        self._parser = classobj(file_path)
+        self._file_path = file_path
+
+        self._parser = classobj(self._file_path)
         self._coverage = None
 
-    def create_coverage(self, mapping_file, param_dict):
+    def create_coverage(self, cov_name, mapping_file, param_dict):
 
         if param_dict:
             self._param_mapper = ParameterMapper(pmap_file=mapping_file, parameter_dictionary=param_dict)
@@ -53,31 +54,19 @@ class coverage_creator():
             # Construct temporal and spatial Domain objects
             tdom = GridDomain(GridShape('temporal', [0]), tcrs, MutabilityEnum.EXTENSIBLE) # 1d (timeline)
 
-            self._coverage = SimplexCoverage('test_data',
+            self._coverage = SimplexCoverage(cov_name,
                                              create_guid(),
-                                             os.path.splitext(os.path.basename('test_data/test.csv'))[0],
+                                             os.path.splitext(os.path.basename(self._file_path))[0],
                                              parameter_dictionary=param_dict,
                                              temporal_domain=tdom)
 
-            shp = self._parser.get_var_shape('time')
+            shp = self._parser.get_var_shape(self._coverage.temporal_parameter_name)
             self._coverage.insert_timesteps(shp[0])
 
             mapping = self._param_mapper.get_mapping()
 
             for var in self._parser.get_col_names():
-                #parameter mapping goes here
-                print var
-                print mapping[var]
                 vals = self._parser.get_values(var_name=var)
-                print vals
                 self._coverage.set_parameter_values(mapping[var],
                                                     value=vals)
-                print self._coverage.get_parameter_values(mapping[var])
             return self._coverage
-
-#    def create_guid(self):
-#        """
-#        @retval Return global unique id string
-#        """
-#        # guids seem to be more readable if they are UPPERCASE
-#        return str(uuid.uuid4()).upper()
