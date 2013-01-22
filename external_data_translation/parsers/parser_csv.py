@@ -18,6 +18,7 @@ class CSVParser(Parser):
         with open(self.file_path, 'r') as csvfile:
             csvreader = csv.reader(csvfile, delimiter=',')
             self.col_names = csvreader.next()
+            self.col_names.reverse()
 
     def get_col_names(self):
         return self.col_names

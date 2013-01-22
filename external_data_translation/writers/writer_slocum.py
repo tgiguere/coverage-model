@@ -2,23 +2,25 @@
 
 """
 @package coi
-@file writers/writer_csv.py
+@file writers/writer_slocum.py
 @author Tim Giguere
-@brief CSV writer
+@brief Slocum writer
 """
 
 import numpy as np
 from external_data_translation.writers.writer_base import Writer
 
 
-class CSVWriter(Writer):
+class SlocumWriter(Writer):
     def __init__(self, file_path=''):
         self._file_path = file_path
         self._variables = []
+        self._units = []
         self._variable_data = {}
 
     def add_variable(self, var_name='', units=''):
         self._variables.append(var_name)
+        self._units.append(units)
 
     def add_variable_data(self, var_name='', data=None):
         self._variable_data[var_name] = data
@@ -33,7 +35,8 @@ class CSVWriter(Writer):
 
         aligned_data = all_data.transpose()
         with open(self._file_path, 'w') as f:
-            f.write(','.join(self._variables) + '\n')
+            f.write(' '.join(self._variables) + '\n')
+            f.write(' '.join(self._units) + '\n')
 
             for vals in aligned_data:
-                f.write(','.join(map(str, vals)) + '\n')
+                f.write(' '.join(map(str, vals)) + '\n')

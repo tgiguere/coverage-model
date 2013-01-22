@@ -11,7 +11,7 @@ class Writer(object):
     def __init__(self, file_path=''):
         raise NotImplementedError('__init__ must be implemented in child class')
 
-    def add_variable(self, var_name=''):
+    def add_variable(self, var_name='', units=''):
         raise NotImplementedError('add_variable must be implemented in child class')
 
     def add_variable_data(self, var_name='', data=None):

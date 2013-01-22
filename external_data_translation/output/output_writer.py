@@ -7,13 +7,24 @@
 @brief Class used to output a coverage to a file
 """
 
-#from coverage_model.coverage import SimplexCoverage
-#from external_data_translation.output.output_writer import output_writer
-#cov = SimplexCoverage.load('test_data/1BF2DC34-4CCB-4F1B-A333-28CD4173E6D2')
-#writer = output_writer('external_data_translation.writers.writer_csv', 'CSVWriter', cov, 'external_data_translation/examples/cov_to_file.pmap', 'external_data_translation/examples/test_out.csv')
-#writer.create_output()
+"""
+from coverage_model.coverage import SimplexCoverage
+from external_data_translation.output.output_writer import output_writer
+cov = SimplexCoverage.load('test_data/1BF2DC34-4CCB-4F1B-A333-28CD4173E6D2')
+writer = output_writer('external_data_translation.writers.writer_csv', 'CSVWriter', cov, 'external_data_translation/examples/cov_to_csv.pmap', 'external_data_translation/examples/test_out.csv')
+writer.create_output()
+cov.close()
+
+from coverage_model.coverage import SimplexCoverage
+from external_data_translation.output.output_writer import output_writer
+cov = SimplexCoverage.load('test_data/1FFE73DE-7EED-48AC-9ECF-F7296928DF3C')
+writer = output_writer('external_data_translation.writers.writer_slocum', 'SlocumWriter', cov, 'external_data_translation/examples/cov_to_slocum.pmap', 'external_data_translation/examples/test_out.dat')
+writer.create_output()
+cov.close()
+"""
 
 from external_data_translation.mappers.parameter_mapper import ParameterMapper
+
 
 class output_writer():
     def __init__(self, mod_name, class_name, coverage, mapping_file, file_path):
@@ -27,10 +38,12 @@ class output_writer():
 
     def create_output(self):
         vars = self._coverage.list_parameters()
-        vars.reverse()
+
         for var in vars:
-            self._writer.add_variable(self._mapper[var])
+            self._writer.add_variable(self._mapper[var], self._coverage.get_parameter_context(var).uom)
             var_data = self._coverage.get_parameter_values(var)
+            print var
+            print var_data
             self._writer.add_variable_data(var_name=self._mapper[var], data=var_data)
 
         self._writer.write_file()

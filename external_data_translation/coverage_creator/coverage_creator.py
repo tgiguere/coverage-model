@@ -7,23 +7,26 @@
 @brief Class used to create a coverage from an input data source
 """
 
-#import numpy as np
-#from coverage_model.parameter import ParameterDictionary, ParameterContext
-#from coverage_model.parameter_types import QuantityType
-#from coverage_model.basic_types import VariabilityEnum
-#from external_data_translation.coverage_creator.coverage_creator import coverage_creator
-#pdict = ParameterDictionary()
-#t_ctxt = ParameterContext('time', param_type=QuantityType(value_encoding=np.dtype('int64')), variability=VariabilityEnum.TEMPORAL)
-#t_ctxt.uom = 'seconds since 01-01-1979'
-#pdict.add_context(t_ctxt, is_temporal=True)
-#temp_ctxt = ParameterContext('temp', param_type=QuantityType(value_encoding=np.dtype('float32')))
-#temp_ctxt.uom = 'K'
-#pdict.add_context(temp_ctxt)
-#sal_ctxt = ParameterContext('salinity', param_type=QuantityType(value_encoding=np.dtype('float32')))
-#sal_ctxt.uom = 'ppm'
-#pdict.add_context(sal_ctxt)
-#cov = coverage_creator('external_data_translation.parsers.parser_csv', 'CSVParser', 'external_data_translation/examples/test.csv')
-#new_cov = cov.create_coverage('test_data', 'external_data_translation/examples/file_to_cov.pmap', pdict)
+"""
+import numpy as np
+from coverage_model.parameter import ParameterDictionary, ParameterContext
+from coverage_model.parameter_types import QuantityType
+from coverage_model.basic_types import VariabilityEnum
+from external_data_translation.coverage_creator.coverage_creator import coverage_creator
+pdict = ParameterDictionary()
+t_ctxt = ParameterContext('time', param_type=QuantityType(value_encoding=np.dtype('int64')), variability=VariabilityEnum.TEMPORAL)
+t_ctxt.uom = 'seconds since 01-01-1979'
+pdict.add_context(t_ctxt, is_temporal=True)
+temp_ctxt = ParameterContext('temp', param_type=QuantityType(value_encoding=np.dtype('float32')))
+temp_ctxt.uom = 'K'
+pdict.add_context(temp_ctxt)
+sal_ctxt = ParameterContext('salinity', param_type=QuantityType(value_encoding=np.dtype('float32')))
+sal_ctxt.uom = 'ppm'
+pdict.add_context(sal_ctxt)
+cov = coverage_creator('external_data_translation.parsers.parser_csv', 'CSVParser', 'external_data_translation/examples/test.csv')
+new_cov = cov.create_coverage('test_data', 'external_data_translation/examples/csv_to_cov.pmap', pdict)
+new_cov.close()
+"""
 
 import os
 
