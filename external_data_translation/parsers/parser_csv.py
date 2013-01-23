@@ -38,6 +38,22 @@ class CSVParser(Parser):
         col_index = self.col_names.index(var_name)    # Will raise ValueError is name is not in list
         return np.genfromtxt(self.file_path, delimiter=',', skip_header=1, usecols=col_index)
 
+    def get_var_attribute(self, var_name='', att_name=''):
+        return ''
 
+    def get_var_attributes(self, var_name=''):
+        return {}
 
+    def iterkeys(self):
+        for var in self.col_names:
+            yield var
 
+    def itervals(self):
+        for var in self.col_names:
+            col_index = self.col_names.index(var)
+            yield np.genfromtxt(self.file_path, delimiter=',', skip_header=1, usecols=col_index)
+
+    def iteritems(self):
+        for var in self.col_names:
+            col_index = self.col_names.index(var)
+            yield var, np.genfromtxt(self.file_path, delimiter=',', skip_header=1, usecols=col_index)

@@ -68,8 +68,8 @@ class coverage_creator():
 
             mapping = self._param_mapper.get_mapping()
 
-            for var in self._parser.get_col_names():
-                vals = self._parser.get_values(var_name=var)
+            for var, vals in self._parser.iteritems():
+                #vals = self._parser.get_values(var_name=var)
                 self._coverage.set_parameter_values(mapping[var],
                                                     value=vals)
             return self._coverage

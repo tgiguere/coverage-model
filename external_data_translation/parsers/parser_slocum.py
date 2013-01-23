@@ -300,7 +300,7 @@ class SlocumParser(Parser):
 
             for i in xrange(len(self._sensor_names)):
                 #sb.seek(0)
-                self.sensor_map[self._sensor_names[i]] = (units[i], dtypes[i])
+                self.sensor_map[self._sensor_names[i]] = {'units': units[i], 'dtype': dtypes[i]}
         finally:
             if not sb is None:
                 sb.close()
@@ -319,9 +319,29 @@ class SlocumParser(Parser):
         else:
             return vals
 
+    def get_var_attribute(self, var_name='', att_name=''):
+        return self.sensor_map[var_name][att_name]
+
+    def get_var_attributes(self, var_name=''):
+        return self.sensor_map[var_name]
+
     def read_var(self, var_name=''):
         col_index = self._sensor_names.index(var_name)    # Will raise ValueError is name is not in list
         return np.genfromtxt(self.file_path, delimiter=' ', skip_header=self.header_size + 2, usecols=col_index, missing_values='NaN')
+
+    def iterkeys(self):
+        for var in self._sensor_names:
+            yield var
+
+    def itervals(self):
+        for var in self._sensor_names:
+            col_index = self._sensor_names.index(var)
+            yield np.genfromtxt(self.file_path, delimiter=' ', skip_header=self.header_size + 2, usecols=col_index, missing_values='NaN')
+
+    def iteritems(self):
+        for var in self._sensor_names:
+            col_index = self._sensor_names.index(var)
+            yield var, np.genfromtxt(self.file_path, delimiter=' ', skip_header=self.header_size + 2, usecols=col_index, missing_values='NaN')
 
     #TODO:  IMPROVE - Function similar to above that reads a file to a StringIO from http, ftp, or fs
     #VERY BASIC

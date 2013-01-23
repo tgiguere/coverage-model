@@ -17,5 +17,17 @@ class Parser(object):
     def get_var_shape(self, var_name=''):
         raise NotImplementedError('get_var_shape must be implemented in child class')
 
+    def get_var_attribute(self, var_name='', att_name=''):
+        raise NotImplementedError('get_var_attribute must be implemented in child class')
+
+    def get_var_attributes(self, var_name=''):
+        raise NotImplementedError('get_var_attributes must be implemented in child class')
+
     def get_data(self, var_name='', _slice=None):
         raise NotImplementedError('get_data must be implemented in child class')
+
+    def iterkeys(self):
+        raise NotImplementedError('iterkeys must be implemented in child class')
+
+    def itervals(self):
+        raise NotImplementedError('itervals must be implemented in child class')
