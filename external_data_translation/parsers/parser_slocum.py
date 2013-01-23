@@ -12,7 +12,7 @@ import numpy
 from coverage_model.parameter import ParameterDictionary, ParameterContext
 from coverage_model.parameter_types import QuantityType
 from coverage_model.basic_types import VariabilityEnum
-from external_data_translation.coverage_creator.coverage_creator import coverage_creator
+from external_data_translation.ingress.ingress import coverage_ingress
 
 pdict = ParameterDictionary()
 
@@ -232,7 +232,7 @@ t_ctxt = ParameterContext('m_pitch', param_type=QuantityType(value_encoding=nump
 t_ctxt.uom = 'rad'
 pdict.add_context(t_ctxt)
 
-cov = coverage_creator('external_data_translation.parsers.parser_slocum', 'SlocumParser', 'external_data_translation/examples/ru05-2012-021-0-0-sbd.dat')
+cov = coverage_ingress('external_data_translation.parsers.parser_slocum', 'SlocumParser', 'external_data_translation/examples/ru05-2012-021-0-0-sbd.dat')
 new_cov = cov.create_coverage('test_data', 'external_data_translation/examples/slocum_to_cov.pmap', pdict)
 new_cov.close()
 """
